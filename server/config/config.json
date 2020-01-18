@@ -1,0 +1,11 @@
+{
+  "test":{
+    "PORT":3000,
+    "MONGODB_URI":"mongodb://localhost:27017/myproject1234",
+    "JWT_SECRET":"msfknndkmkeijeijwiweew"
+  },
+ "development":{
+   "MONGODB_URI":"mongodb+srv://Yashky47:HOD123@cluster0-ppwtl.mongodb.net/test?w=majority",
+   "JWT_SECRET":"keklwekdedkeokeokkewofp"
+}
+}
