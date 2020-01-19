@@ -23,6 +23,8 @@ var Userschema = new mongoose.Schema({
       message: "{VALUE} is not a valid email"
     }
   },
+  aadhaar:String,
+  phone:String,
   age: {
     type: Number,
     required: [true, "Field Necessary"],

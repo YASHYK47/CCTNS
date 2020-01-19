@@ -5,6 +5,7 @@ const { ObjectID } = require("mongodb");
 var formidable = require("formidable");
 var fs = require("fs");
 var path = require("path");
+const request = require("request");
 
 var { mongoose } = require("../db/mongoose.js");
 var { User } = require("../models/user.js");
@@ -59,7 +60,7 @@ router.post("/register/admin", (req, res) => {
 });
 
 router.post("/register/SHO", authenticateadmin, (req, res) => {
-  var body = _.pick(req.body, ["name", "email","location", "password","age"]);
+  var body = _.pick(req.body, ["name", "email", "location", "password", "age"]);
   var user = new SHO(body);
   user
     .save()
@@ -138,7 +139,7 @@ router.post("/admin/login", (req, res) => {
     });
 });
 
-router.post("/userstaf/login", (req, res) => {
+router.post("/user/login", (req, res) => {
   var body = _.pick(req.body, ["email", "password"]);
   Userstaf.findByCredentials(body.email, body.password)
     .then(user => {
@@ -164,26 +165,42 @@ router.post("/SHO/login", (req, res) => {
     });
 });
 
-router.route("/sendotp").post(async function(req, res, next) {
+router.get("user/myFirs", authenticateuser, (req, res) => {
+  var user = req.user;
+  FIR.find({ "User.id": req.user._id })
+    .then(firs => {
+      res.status(200).send(firs);
+    })
+    .catch(err => {
+      res.status(400).send(err);
+    });
+});
+
+// router.get("SHO/newFirs", authenticateuser, (req, res) => {
+//   var user = req.user;
+//   FIR.find({ "User.id": req.user._id })
+//     .then(firs => {
+//       res.status(200).send(firs);
+//     })
+//     .catch(err => {
+//       res.status(400).send(err);
+//     });
+// });
+
+router.post("/sendotp", async function(req, res, next) {
   var phone = req.body.phone;
-  var phone_91 = "91" + phone; //along with country code
+  var phone_91 = "91" + phone;
+  console.log(phone_91);
   request.post(
-    "https://control.msg91.com/api/sendotp.php?authkey=" +
-      config.SMS.AUTH_KEY +
-      "&message=Welcome%20to%20Cupido.%20Discover%20the%20new%20world%20of%20products.%20Hope%20you%20have%20an%20awesome%20time%20here.%20Here%20is%20your%20OTP%20%20%23%23OTP%23%23&sender=" +
-      config.SMS.SENDER_ID +
-      "&mobile=" +
+    "https://control.msg91.com/api/sendotp.php?authkey=286740AaLXa68duDLY5e238441P1&message=%20Here%20is%20your%20OTP%20%20%23%23OTP%23%23&sender=CCTNSS&mobile=" +
       phone_91,
     { json: true },
     async function(error, response, body) {
       if (!error) {
-        // console.log(body);
-        const newUser = await User.findOne({
-          "contact.contact": phone
-        }).exec();
-        res.send({ ...body, new: newUser ? false : true });
+        res.send("Otp send");
+        // console.log(response);
       } else {
-        return next({ message: "unknown error occured", status: 400 });
+        console.log(error);
       }
     }
   );
@@ -193,32 +210,24 @@ router.route("/resendotp").post(async function(req, res, next) {
   var phone = req.body.phone;
   var phone_91 = "91" + phone;
   request.post(
-    "https://control.msg91.com/api/retryotp.php?authkey=" +
-      config.SMS.AUTH_KEY +
-      "&mobile=" +
+    "https://control.msg91.com/api/retryotp.php?authkey=286740AaLXa68duDLY5e238441P1&mobile=" +
       phone_91,
     { json: true },
     async function(error, response, body) {
       if (!error) {
-        // console.log(body);
-        const newUser = await User.findOne({
-          "contact.contact": phone
-        }).exec();
-        res.send({ ...body, new: newUser ? false : true });
+        res.status(200).send("OTP Sent Again");
       } else {
-        return next({ message: "unknown error occured", status: 400 });
+        res.status(400).send("Some Error occured");
       }
     }
   );
 });
 
-router.route("/verifyotp").post(async function(req, res, next) {
+router.post("/verifyotp",async function(req, res, next) {
   var phone = "91" + req.body.phone;
   var otp = req.body.otp;
   request.post(
-    "https://control.msg91.com/api/verifyRequestOTP.php?authkey=" +
-      config.SMS.AUTH_KEY +
-      "&mobile=" +
+    "https://control.msg91.com/api/verifyRequestOTP.php?authkey=286740AaLXa68duDLY5e238441P1&mobile=" +
       phone +
       "&otp=" +
       otp,
@@ -226,19 +235,14 @@ router.route("/verifyotp").post(async function(req, res, next) {
     async function(error, response, body) {
       if (!error) {
         if (body.type === "success") {
-          res.send(body);
+          res.status(200).send("verified");
         } else {
-          return next({
-            message: "unknown error occured",
-            status: 400
-          });
+          res.status(400).send("Some Error Occurred 1");
+          console.log(response);
         }
       } else {
-        return next({
-          message: "unknown error occured",
-          status: 400,
-          stack: error
-        });
+        res.status(400).send("Some Error Occurred");
+        console.log(error);
       }
     }
   );
