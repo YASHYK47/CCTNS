@@ -59,7 +59,7 @@ router.post("/register/admin", (req, res) => {
     });
 });
 
-router.post("/register/SHO", authenticateadmin, (req, res) => {
+router.post("/register/SHO", (req, res) => {
   var body = _.pick(req.body, ["name", "email", "location", "password", "age"]);
   var user = new SHO(body);
   user
@@ -72,23 +72,23 @@ router.post("/register/SHO", authenticateadmin, (req, res) => {
     });
 });
 
-router.get("/user/profile", authenticateuser, (req, res) => {
-  var token = req.header("x-auth");
-  Userstud.findByToken(token).then(user => {
-    res.send(req.user);
+router.get("/user/profile", (req, res) => {
+  var id = req.body.userId;
+  User.find({ _id: id }).then(user => {
+    res.send(user);
   });
 });
 
-router.get("/admin/profile", authenticateadmin, (req, res) => {
-  var token = req.header("x-auth");
-  Admin.findByToken(token).then(user => {
-    res.send(req.user);
+router.get("/admin/profile", (req, res) => {
+  var id = req.body.adminId;
+  Admin.find({ _id: id }).then(user => {
+    res.send(user);
   });
 });
 
-router.get("/SHO/profile", authenticateSHO, (req, res) => {
-  var token = req.header("x-auth");
-  Userstud.findByToken(token).then(user => {
+router.get("/SHO/profile", (req, res) => {
+  var id = req.body.userId;
+  SHO.find({ _id: id }).then(user => {
     res.send(req.user);
   });
 });
@@ -115,7 +115,7 @@ router.delete("/admin/logout", authenticateadmin, (req, res) => {
   );
 });
 
-router.delete("/SHO/logout", authenticateuser, (req, res) => {
+router.delete("/SHO/logout", authenticateSHO, (req, res) => {
   req.user.removeToken(req.token).then(
     () => {
       res.status(200).send("Logged Out Successfully");
@@ -141,20 +141,20 @@ router.post("/admin/login", (req, res) => {
 
 router.post("/user/login", (req, res) => {
   var body = _.pick(req.body, ["email", "password"]);
-  Userstaf.findByCredentials(body.email, body.password)
+  User.findByCredentials(body.email, body.password)
     .then(user => {
       return user.generateAuthToken().then(token => {
         res.header("x-auth", token).send(user);
       });
     })
     .catch(e => {
-      res.status(400).send(e);
+      res.status(400).send("Wrong Credentials");
     });
 });
 
 router.post("/SHO/login", (req, res) => {
   var body = _.pick(req.body, ["email", "password"]);
-  Userstaf.findByCredentials(body.email, body.password)
+  SHO.findByCredentials(body.email, body.password)
     .then(user => {
       return user.generateAuthToken().then(token => {
         res.header("x-auth", token).send(user);
@@ -165,15 +165,56 @@ router.post("/SHO/login", (req, res) => {
     });
 });
 
-router.get("user/myFirs", authenticateuser, (req, res) => {
-  var user = req.user;
-  FIR.find({ "User.id": req.user._id })
+router.get("user/myFirs", (req, res) => {
+  var userId = req.body.userId;
+  FIR.find({ " User.id": userId })
     .then(firs => {
       res.status(200).send(firs);
     })
     .catch(err => {
       res.status(400).send(err);
     });
+});
+
+router.get("SHO/Firs", (req, res) => {
+  var id = req.body.SHOId;
+  FIR.find({ "SHO.id": id })
+    .then(firs => {
+      res.status(200).send(firs);
+    })
+    .catch(err => {
+      res.status(400).send(err);
+    });
+});
+
+router.post("/Fir", (req, res) => {
+  SHO.findOne({ location: req.body.location })
+    .then(Sho => {
+      if (!Sho) {
+        res.status(400).send("Enter valid Location");
+      }
+      var Fir = new FIR({
+        questions: req.body.questions,
+        location: req.body.location,
+        // hash: ,
+        status: 0,
+        verified: false,
+        "User.id": req.body.userId,
+        "SHO.id": Sho._id
+      });
+    })
+    .catch(err => {
+      res.status(400).send(err);
+    });
+});
+
+router.post("/FirbyId", (req, res) => {
+  var id = req.body.FirId;
+  FIR.findOne({ _id: id }).then(user => {
+    res.send(req.user);
+  }).catch(err => {
+    res.status(400).send(err);
+  });
 });
 
 // router.get("SHO/newFirs", authenticateuser, (req, res) => {
@@ -223,7 +264,7 @@ router.route("/resendotp").post(async function(req, res, next) {
   );
 });
 
-router.post("/verifyotp",async function(req, res, next) {
+router.post("/verifyotp", async function(req, res, next) {
   var phone = "91" + req.body.phone;
   var otp = req.body.otp;
   request.post(

@@ -11,6 +11,12 @@ var FIRschema = new mongoose.Schema({
       ref: "User"
     }
   },
+  SHO: {
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "SHO"
+    }
+  },
   questions: [mongoose.Schema.Types.Mixed],
   location: String,
   hash: String,
