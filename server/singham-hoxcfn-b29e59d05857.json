@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "singham-hoxcfn",
+  "private_key_id": "b29e59d058574d7cd73d19516bb0fcf5607a1082",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQClYvpbAjYvKo52\nyE4PuoECHYs5auogIErNt/jDDCFFhM3FcIXaFnOHMKVrKLbUiFqSswxzEr2hNmog\nH2cQb1NZw4VscbVdcMALczJMV2DW9Z6LdEIQvz1IsDHpb4cZiwwUsqzkEM8/CNDg\nUtdjZkCk6oS/lGIgwrQD234Ap33ZJXcZ7Y+OEq2Vgl5uvGsi7ylejs8nwRvYDhRi\n1Qcf0q2cgiQ4WmXv+YCHBwYv4HVLSdW4HrdAkcXsv5C3u3NoPg91z2Ah1/BDGwHk\nDlKN3QC0qLcfBFJ008jwSCsppCHk6zA6Cs3PQ3jKXOrhPodI7PLVeoH5S1FUlIU/\n89uO31ZjAgMBAAECggEAAJC2ClmXldGvaviES8l3Z2pyb1/OLQ3vM4TNdN01v+cU\nTPh1fKlW+79O0W7yMQfGR3oVMM9/lm15L2LsF0JKJqRkcFpzJD6eaWubYGdsDVAJ\nmrBrCWOd8gGoKgQXkh7Hi8qQjLcB/lUpYZrm4ZAX6Hhku8LmEvaXZuv5IkdwRq24\nsHGYjBJ2nqSoy+P38SSNfpVP2HWYVTOtPMMdp0yXmNHZQ2H0ck5x/W7iISTsBCnf\nxpVieXcl0/EJiSAQ98NCMP52eQt4tYIu9vvpMnS0m1hPrrz13SSS+5SXtkknXmK4\nTi4PURCz9Dt3nNsdoWNQWklYfljkhx6dBRsebOvjAQKBgQDkYyENcYgKPHBligC+\nzJbgC4/Ckgsv6maPfNejjQ7FaPbV+1+WE9VNyIHGV9bzkjmKHXA0EVWLiemjGw03\nWfKsUi1DxZEMsr4kpdhUXEyl+wfiS9qLn3vRd6HFjwx1jpmyaDIUyaDcQHrvNSKB\ncZkSA3wAQAIDjb5Nd5FXsHisDQKBgQC5YebN62L9gwl4Q9vdWlnYBqVqj34ou1uW\nrrqg0DLiBC1/Hd+UIfq3dGEthtXlDcKmgn+WyM9SSLQ9bSKzG8AC2b4mEOl0usV3\nVlpbfRqRhksV6UkWtyD3S2vG4r7s3RL8ypJw4QqW5fkEciJS+tHjkA2dgNhNwz8z\niDnoZObALwKBgA3JPhGFrOSRSWeXsPvTdbgIeqEQF8TIrXAz5QBmX2HjOCMqjVaN\n0+5iEBNc8gi55udDZ6Z89WD67jN+Sonw0Ak+3KSepGbT0057BFfzSl0qjgtG8OZE\ntkCqrAU04VenR/fQ+lTu5trkuYb++ho+NTM1KqMJOhXk1Hvwn8FfUalxAoGAZ6gT\na07UAhbUI7gl50aO+Bj3Q3dKvrHMi5vV5Peli/V0DyEAFA9P5mafs9oyHaqtDXfo\nqcJNEqBuj+5HOckpey6PgS9xqoCIy6qwSXnRck+aCn1wDdCGEWDNud6tjTosVMdc\nTNu4lRmwPMko4ic3VzwEMO6LhCfJXiIs5wIMeKcCgYAW3117Doq4VwdyBdwfwKFW\nF9VVkL/Cor8pOGtdNAlat13uNdN/itIY8AsF841fVJXinszAyj1qDZfH6cUWUfbi\nBDZ2FEn87rLI8TbxSvLMu3/w4VVy4xXDS5ZmWfuQ9TrNBP9zBxYQ719Dm5VIfTQZ\nAe+bkNAmoBXV2JB5kkKUaw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "adminunderdogs@singham-hoxcfn.iam.gserviceaccount.com",
+  "client_id": "114177855813728933875",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/adminunderdogs%40singham-hoxcfn.iam.gserviceaccount.com"
+}
